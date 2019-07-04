@@ -1,0 +1,44 @@
+category, CREATE TABLE `category` (
+  `cat_id` int(10) unsigned NOT NULL,
+  `cat_name` varchar(20) DEFAULT NULL,
+  `blog_id` int(10) unsigned DEFAULT NULL,
+  `parent_cat_id` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`cat_id`),
+  KEY `blog_id_fk` (`blog_id`),
+  KEY `cat_id_fk` (`parent_cat_id`),
+  CONSTRAINT `blog_id_fk` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+comments, CREATE TABLE `comments` (
+  `com_id` int(10) unsigned NOT NULL,
+  `com_name` varchar(20) DEFAULT NULL,
+  `commentby` varchar(20) DEFAULT NULL,
+  `comment_text` varchar(100) DEFAULT NULL,
+  `post_id` int(10) unsigned NOT NULL,
+  `create_date` date NOT NULL,
+  PRIMARY KEY (`com_id`),
+  KEY `posts_id_fk` (`post_id`),
+  CONSTRAINT `posts_id_fk` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+post_tag, CREATE TABLE `post_tag` (
+  `post_id` int(10) unsigned NOT NULL,
+  `tag_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`post_id`,`tag_id`),
+  KEY `tag_id_fk2` (`tag_id`),
+  CONSTRAINT `posts_id_fk2` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_idd`),
+  CONSTRAINT `tag_id_fk2` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+post, CREATE TABLE `post` (
+  `post_id` int(10) unsigned NOT NULL,
+  `post_title` varchar(30) NOT NULL,
+  `author` varchar(20) DEFAULT NULL,
+  `cat_id` int(10) unsigned DEFAULT NULL,
+  `created_date` date NOT NULL,
+  PRIMARY KEY (`post_id`),
+  KEY `post_id_fk` (`cat_id`),
+  CONSTRAINT `post_id_fk` FOREIGN KEY (`cat_id`) REFERENCES `category` (`cat_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+
